@@ -71,7 +71,7 @@ Journal = {
                 var Volume = Utilities.safeGetFromJson(dataJson, ["volume"]);
                 var Issue = Utilities.safeGetFromJson(dataJson, ["issue"]);
                 var Pages = Utilities.safeGetFromJson(dataJson, ["page"]);
-                var PublishDate = this.generateDate(Utilities.safeGetFromJson(dataJson, ["published", "date-parts"]));
+                var PublishDate = this.generateDate(Utilities.safeGetFromJson(dataJson, ["published-print", "date-parts"]));
                 var JournalAbbr = Utilities.safeGetFromJson(dataJson, ["short-container-title"]); if (this.isObject(JournalAbbr)) JournalAbbr = JournalAbbr[0];
                 var Language = Utilities.safeGetFromJson(dataJson, ["language"]);
                 return {
