@@ -4,6 +4,12 @@ Journal = {
         return obj !== null && typeof obj === 'object';
     },
 
+    decodeHTMLEntities(text) {
+        let textarea = document.createElement('textarea');
+        textarea.innerHTML = text;
+        return textarea.textContent;
+    },
+
     generateAuthors (authors) {
         var newAuthorList = [];
         if (authors) {
@@ -75,9 +81,9 @@ Journal = {
                 var JournalAbbr = Utilities.safeGetFromJson(dataJson, ["short-container-title"]); if (this.isObject(JournalAbbr)) JournalAbbr = JournalAbbr[0];
                 var Language = Utilities.safeGetFromJson(dataJson, ["language"]);
                 return {
-                            "Title": Title ? Title : "",
+                            "Title": Title ? self.decodeHTMLEntities(Title) : "",
                             "Authors": Authors ? Authors : "",
-                            "Publication": Publication ? Publication : "",
+                            "Publication": Publication ? self.decodeHTMLEntities(Publication) : "",
                             "Volume": Volume ? Volume : "",
                             "Issue": Issue ? Issue : "",
                             "Pages": Pages ? Pages : "",
