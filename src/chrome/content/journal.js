@@ -1,4 +1,9 @@
-Journal = {    
+Journal = {
+
+    isObject(obj) {
+        return obj !== null && typeof obj === 'object';
+    },
+
     generateAuthors (authors) {
         var newAuthorList = [];
         if (authors) {
@@ -60,14 +65,14 @@ Journal = {
             })
             .then(dataJson => {
                 dataJson = dataJson.message;
-                var Title = Utilities.safeGetFromJson(dataJson, ["title"]);
+                var Title = Utilities.safeGetFromJson(dataJson, ["title", 0]); if (isObject(Title)) Title = Title[0];
                 var Authors = this.generateAuthors(Utilities.safeGetFromJson(dataJson, ["author"]));
-                var Publication = Utilities.safeGetFromJson(dataJson, ["container-title"]);
+                var Publication = Utilities.safeGetFromJson(dataJson, ["container-title"]); if (isObject(Publication)) Publication = Publication[0];
                 var Volume = Utilities.safeGetFromJson(dataJson, ["volume"]);
                 var Issue = Utilities.safeGetFromJson(dataJson, ["issue"]);
                 var Pages = Utilities.safeGetFromJson(dataJson, ["page"]);
                 var PublishDate = this.generateDate(Utilities.safeGetFromJson(dataJson, ["published", "date-parts"]));
-                var JournalAbbr = Utilities.safeGetFromJson(dataJson, ["short-container-title"]);
+                var JournalAbbr = Utilities.safeGetFromJson(dataJson, ["short-container-title"]); if (isObject(JournalAbbr)) JournalAbbr = JournalAbbr[0];
                 var Language = Utilities.safeGetFromJson(dataJson, ["language"]);
                 return {
                             "Title": Title ? Title : "",
