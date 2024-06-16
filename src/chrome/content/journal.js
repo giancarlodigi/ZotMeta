@@ -71,19 +71,22 @@ Journal = {
             })
             .then(dataJson => {
                 dataJson = dataJson.message;
-                var Title = Utilities.safeGetFromJson(dataJson, ["title", 0]); if (this.isObject(Title)) Title = Title[0];
+                var Title = Utilities.safeGetFromJson(dataJson, ["title", 0]);
                 var Authors = this.generateAuthors(Utilities.safeGetFromJson(dataJson, ["author"]));
-                var Publication = Utilities.safeGetFromJson(dataJson, ["container-title"]); if (this.isObject(Publication)) Publication = Publication[0];
+                var Publication = Utilities.safeGetFromJson(dataJson, ["container-title"]);
                 var Volume = Utilities.safeGetFromJson(dataJson, ["volume"]);
                 var Issue = Utilities.safeGetFromJson(dataJson, ["issue"]);
                 var Pages = Utilities.safeGetFromJson(dataJson, ["page"]);
                 var PublishDate = this.generateDate(Utilities.safeGetFromJson(dataJson, ["published-print", "date-parts"]));
-                var JournalAbbr = Utilities.safeGetFromJson(dataJson, ["short-container-title"]); if (this.isObject(JournalAbbr)) JournalAbbr = JournalAbbr[0];
+                var JournalAbbr = Utilities.safeGetFromJson(dataJson, ["short-container-title"]);
                 var Language = Utilities.safeGetFromJson(dataJson, ["language"]);
+                if (this.isObject(Title)) Title = Title[0]; Title = this.decodeHTMLEntities(Title);
+                if (this.isObject(Publication)) Publication = Publication[0]; Publication = this.decodeHTMLEntities(Publication);
+                if (this.isObject(JournalAbbr)) JournalAbbr = JournalAbbr[0]; JournalAbbr = this.decodeHTMLEntities(JournalAbbr);
                 return {
-                            "Title": Title ? self.decodeHTMLEntities(Title) : "",
+                            "Title": Title ? Title : "",
                             "Authors": Authors ? Authors : "",
-                            "Publication": Publication ? self.decodeHTMLEntities(Publication) : "",
+                            "Publication": Publication ? Publication : "",
                             "Volume": Volume ? Volume : "",
                             "Issue": Issue ? Issue : "",
                             "Pages": Pages ? Pages : "",
