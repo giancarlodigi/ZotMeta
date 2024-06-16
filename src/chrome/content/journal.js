@@ -38,9 +38,9 @@ Journal = {
             return null;
         }
 
-        var url = 'http://dx.doi.org/' + doi;
-        const headers = new Headers({'Accept': 'application/vnd.citationstyles.csl+json'});
-        var requestInfo = { method: 'GET', headers };
+        var url = 'https://api.crossref.org/works/' + doi;
+        // const headers = new Headers({'Accept': 'application/vnd.citationstyles.csl+json'});
+        var requestInfo = { method: 'GET' };
         return Utilities.fetchWithTimeout(url, requestInfo, 3000)
             .then(response => {
                 if (!response.ok) {
@@ -59,6 +59,7 @@ Journal = {
                 }
             })
             .then(dataJson => {
+                dataJson = dataJson.message;
                 var Title = Utilities.safeGetFromJson(dataJson, ["title"]);
                 var Authors = this.generateAuthors(Utilities.safeGetFromJson(dataJson, ["author"]));
                 var Publication = Utilities.safeGetFromJson(dataJson, ["container-title"]);
@@ -66,7 +67,7 @@ Journal = {
                 var Issue = Utilities.safeGetFromJson(dataJson, ["issue"]);
                 var Pages = Utilities.safeGetFromJson(dataJson, ["page"]);
                 var PublishDate = this.generateDate(Utilities.safeGetFromJson(dataJson, ["published", "date-parts"]));
-                var JournalAbbr = Utilities.safeGetFromJson(dataJson, ["container-title-short"]);
+                var JournalAbbr = Utilities.safeGetFromJson(dataJson, ["short-container-title"]);
                 var Language = Utilities.safeGetFromJson(dataJson, ["language"]);
                 return {
                             "Title": Title ? Title : "",
