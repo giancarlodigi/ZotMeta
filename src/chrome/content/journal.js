@@ -60,12 +60,27 @@ Journal = {
             })
             .then(dataJson => {
                 var Title = Utilities.safeGetFromJson(dataJson, ["title"]);
+
+                // If there's a subtitle, append it to the title separated by ": " 
+                var Subtitles = Utilities.safeGetFromJson(dataJson, ["subtitle"]); 
+                if (Subtitles && Subtitles.length > 0) { 
+                    var subtitleText = Subtitles[0]; 
+                    Title = Title ? Title + ": " + subtitleText : subtitleText; 
+                }
+
                 var Authors = this.generateAuthors(Utilities.safeGetFromJson(dataJson, ["author"]));
                 var Publication = Utilities.safeGetFromJson(dataJson, ["container-title"]);
                 var Volume = Utilities.safeGetFromJson(dataJson, ["volume"]);
                 var Issue = Utilities.safeGetFromJson(dataJson, ["issue"]);
                 var Pages = Utilities.safeGetFromJson(dataJson, ["page"]);
                 var PublishDate = this.generateDate(Utilities.safeGetFromJson(dataJson, ["published", "date-parts"]));
+
+                // Check if there is a published-print date and use it if available 
+                var publishedPrintDate = Utilities.safeGetFromJson(dataJson, ["published-print", "date-parts"]); 
+                if (publishedPrintDate && publishedPrintDate.length > 0) { 
+                    PublishDate = this.generateDate(publishedPrintDate); 
+                } 
+
                 var JournalAbbr = Utilities.safeGetFromJson(dataJson, ["container-title-short"]);
                 var Language = Utilities.safeGetFromJson(dataJson, ["language"]);
                 return {
